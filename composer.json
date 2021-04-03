@@ -1,0 +1,12 @@
+{
+    "name": "ibu/carsharing",
+    "description": "Carsharing system",
+    "license": "apache2",
+    "authors": [
+        {
+            "name": "ajla.sisic",
+            "email": "ajla.sisic@stu.ibu.edu.ba"
+        }
+    ],
+    "require": {}
+}
