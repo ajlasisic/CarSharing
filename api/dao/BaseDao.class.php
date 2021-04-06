@@ -27,8 +27,9 @@ public function query($query, $parameters){
 
 
 }
-public function query_unique(){
-
+public function query_unique($query,$parameters){
+$results=$this->query($query,$parameters);
+return reset($results);
 }
 }
  ?>
