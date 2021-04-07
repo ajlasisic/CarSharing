@@ -20,13 +20,10 @@ public function add_user($user) {
 }
 
 public function update_user($id, $user) {
-  $sql = "UPDATE users SET fullName= :fullName, DOB= :DOB, email= :email, phoneNumber= :phoneNumber WHERE id= :id";
-  $stmt= $this->conn->prepare($sql);
-  $user['id']=$id;
-  $stmt->execute($user);
+  $this->update("users", $id, $user);
 }
-
-
+public function update_user_by_phoneNumber($phoneNumber, $user) {
+  $this->update("users", $phoneNumber, $user, "phoneNumber");
 }
-
+}
 ?>

@@ -16,8 +16,17 @@ class BaseDao{
 public function insert(){
 
 }
-public function update(){
+public function update($table, $id, $entity, $pk_column="id"){
+  $sql = "UPDATE ${table} SET ";
+  foreach ($entity as $name => $value) {
+    $sql .= $name ."= :". $name. ", ";
+  }
+  $sql = substr($sql, 0, -2);
+  $sql .= " WHERE ${pk_column}= :id";
 
+  $stmt= $this->conn->prepare($sql);
+  $entity['id']=$id;
+  $stmt->execute($entity);
 }
 
 public function query($query, $parameters){

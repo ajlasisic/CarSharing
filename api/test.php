@@ -6,12 +6,10 @@ require_once dirname ("__FILE__")."/dao/UserDao.class.php";
 $user_dao= new UserDao();
 $user =[
   "fullName"=>"Ajla Sisic",
-  "DOB"=>"2000-07-19",
-  "email"=>"ajlasisic19@gmail.com",
-  "phoneNumber"=>"6342747",
+  "email"=>"ajla19@gmail.com",
 ];
 
-$user_dao->update_user(14, $user);
+$user_dao->update_user_by_phoneNumber(82173812, $user);
 print_r($user);
 
 /*require_once dirname ("__FILE__")."/dao/UserDao.class.php";
