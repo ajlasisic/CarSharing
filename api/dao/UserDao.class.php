@@ -12,11 +12,7 @@ public function get_user_by_id($id)  {
 }
 
 public function add_user($user) {
-  $sql = "INSERT INTO users (fullName, DOB, email, phoneNumber) VALUES (:fullName, :DOB, :email, :phoneNumber)";
-  $stmt= $this->conn->prepare($sql);
-  $stmt->execute($user);
-  $user['id']= $this->conn->lastInsertId();
-  return $user;
+     return $this->insert("users", $user);
 }
 
 public function update_user($id, $user) {

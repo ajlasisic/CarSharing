@@ -13,8 +13,23 @@ class BaseDao{
 }
 }
 
-public function insert(){
+public function insert($table, $entity){
+  $sql="INSERT INTO ${$table}(";
+    foreach ($entity as $column => $value) {
+      $sql.= $column.", ";
+    }
+  $sql=substr($sql, 0, -2);
+  $sql.=") VALUES (";
+    foreach ($entity as $column => $value) {
+      $sql.=":".$column.", ";
+    }
+    $sql=substr($sql, 0, -2);
+   $sql.=")";
 
+  $stmt= $this->conn->prepare($sql);
+  $stmt->execute($entity);
+  $user['id']= $this->conn->lastInsertId();
+  return $user;
 }
 public function update($table, $id, $entity, $pk_column="id"){
   $sql = "UPDATE ${table} SET ";
