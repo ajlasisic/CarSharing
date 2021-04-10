@@ -3,21 +3,19 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once dirname ("__FILE__")."/dao/UserDao.class.php";
-$user_dao= new UserDao();
-$user =[
-  "fullName"=>"Ajla",
-  "email"=>"ajla123@gmail.com",
-  "phoneNumber"=>"414124",
-  "DOB"=>"1987-09-23",
-];
+require_once dirname ("__FILE__")."/dao/AccountDao.class.php";
 
-$user_dao->add_user($user);
-print_r($user);
-
-/*require_once dirname ("__FILE__")."/dao/UserDao.class.php";
-
-$user_dao= new UserDao();
-$user=$user_dao->get_user_by_id(14);
-print_r($user);
+$dao=new AccountDao();
+ /* $dao->update_account(1,["password"=>"abccba"]);
+ $accounts=$dao->get_all_accounts();
+ print_r($accounts);
 */
+
+$accounts=[
+  "username"=>"adnak",
+  "password"=>"password",
+  "userID"=>"17"
+];
+$dao->add_account($accounts);
+print_r($accounts);
  ?>
