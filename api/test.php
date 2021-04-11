@@ -7,12 +7,8 @@ require_once dirname ("__FILE__")."/dao/AccountDao.class.php";
 require_once dirname ("__FILE__")."/dao/VehicleDao.class.php";
 require_once dirname ("__FILE__")."/dao/LocationDao.class.php";
 
-$dao=new LocationDao();
-$location=[
-  "locationName"=>"Otoka",
-  "locationAddress"=>"Gradacacka 32"
-];
-$dao->add($location);
-print_r($location);
+$dao=new AccountDao();
 
+$accounts = $dao->get_all($_GET['offset'], $_GET['limit']);
+echo json_encode($accounts, JSON_PRETTY_PRINT);
  ?>
