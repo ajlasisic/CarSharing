@@ -4,12 +4,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once dirname ("__FILE__")."/dao/UserDao.class.php";
 require_once dirname ("__FILE__")."/dao/AccountDao.class.php";
-
-$dao=new AccountDao();
- /* $dao->update_account(1,["password"=>"abccba"]);
+require_once dirname ("__FILE__")."/dao/VehicleDao.class.php";
+/*$dao=new AccountDao();
+  $dao->update_account(1,["password"=>"abccba"]);
  $accounts=$dao->get_all_accounts();
  print_r($accounts);
-*/
 
 $accounts=[
   "username"=>"adnak",
@@ -18,4 +17,9 @@ $accounts=[
 ];
 $dao->add_account($accounts);
 print_r($accounts);
+*/
+$dao= new VehicleDao();
+
+$vehicles=$dao->get_all_available_vehicles();
+print_r($vehicles);
  ?>
