@@ -1,10 +1,18 @@
 <?php
 require_once dirname(__FILE__)."/../config.php";
+/*
+*the main class for interaction with database
 
+*all DAO classes inherit this class
+
+*@author Ajla Šišić
+
+*/
 class BaseDao{
   protected $conn;
 
   private $table;
+
   public function __construct($table){
     $this->table=$table;
   try {
