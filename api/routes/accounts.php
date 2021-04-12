@@ -6,12 +6,7 @@ Flight::route('GET /accounts', function(){
 
  $search=Flight::query('search');
 
- if($search){
-   Flight::json(Flight::accountDao()->get_accounts($search,$offset,$limit));
- }
- else{
-   Flight::json(Flight::accountDao()->get_all($offset,$limit));
- }
+ Flight::json(Flight::accountService()->get_accounts($search, $offset, $limit));
 });
 
 Flight::route('GET /accounts/@id', function($id){
