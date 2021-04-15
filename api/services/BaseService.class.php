@@ -9,7 +9,7 @@
    }
 
     public function add($data){
-       return $this->dao->add($data)
+       return $this->dao->add($data);
 
     }
   public function update($id,$data){

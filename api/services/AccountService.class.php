@@ -1,9 +1,9 @@
 <?php
-require_once dirname(__FILE__)."/../BaseService.class.php";
+require_once dirname(__FILE__)."/BaseService.class.php";
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
 
-class AccountService{
-private $dao;
+class AccountService extends BaseService {
+
 
 public function __construct(){
   $this->dao =new AccountDao();
@@ -18,7 +18,7 @@ public function get_accounts($search,$offset,$limit){
    }
   }
    public function add($account){
-         if(!isset($account['name'])) throw new Exception("Username missing");
+         if(!isset($account['username'])) throw new Exception("Username or password are missing");
          return parent::add($account);
 
    }

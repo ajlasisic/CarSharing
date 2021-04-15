@@ -39,8 +39,8 @@ protected function insert($table, $entity){
 
   $stmt= $this->conn->prepare($sql);
   $stmt->execute($entity);
-  $user['id']= $this->conn->lastInsertId();
-  return $user;
+  $entity['id']= $this->conn->lastInsertId();
+  return $entity;
 }
 protected function execute_update($table, $id, $entity, $pk_column="id"){
   $sql = "UPDATE ${table} SET ";
@@ -73,7 +73,7 @@ return $this->insert($this->table, $entity);
 }
 
 public function update($id, $entity){
-return $this->execute_update($this->table, $id, $entity);
+    $this->execute_update($this->table, $id, $entity);
 }
 public function get_by_id($id){
   return $this->query_unique("SELECT * FROM ".$this->table." WHERE id=:id",["id"=>$id]);
