@@ -14,6 +14,7 @@ class UserService extends BaseService{
 public function register($user){
   if(!isset($user['username'])) throw new Exception("Username field is required");
   try{
+    $this->dao->beginTransaction();
     $account = $this->accountDao->add([
       "username"=>$user['username'],
       "password"=>$user['password'],
@@ -29,7 +30,9 @@ public function register($user){
     "token"=> md5(random_bytes(16)),
     "accountID"=>$account['id']
   ]);
+    $this->dao->commit();
 } catch (\Exception $e) {
+    $this->dao->rollBack();
  throw $e;
 }
 return $user;

@@ -13,6 +13,15 @@ class BaseDao{
 
   private $table;
 
+  public function beginTransaction(){
+    $this->conn->beginTransaction();
+  }
+  public function commit(){
+    $this->conn->commit();
+  }
+  public function rollBack(){
+    $this->conn->rollBack();
+  }
   public static function parse_order($order){
     switch (substr($order,0,1)) {
         case '-': $order_direction="ASC";
@@ -31,7 +40,7 @@ class BaseDao{
   try {
     $this->conn = new PDO("mysql:host=".Config::DB_HOST.";dbname=".Config::DB_SCHEME, Config::DB_USERNAME, Config::DB_PASSWORD);
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Connected successfully";
+    $this->conn->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
   } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
