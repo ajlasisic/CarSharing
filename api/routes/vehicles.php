@@ -1,5 +1,14 @@
 <?php
 
+Flight::route('GET /vehicles', function(){
+  $id = Flight::query('id');
+  $offset = Flight::query('offset', 0);
+  $limit = Flight::query('limit', 25);
+  $search = Flight::query('search');
+
+  Flight::json(Flight::vehicleService()->get_vehicles($id, $offset, $limit, $search));
+});
+
 Flight::route('GET /available_vehicles', function(){
     Flight::json(Flight::vehicleService()->get_all_available_vehicles());
 });
