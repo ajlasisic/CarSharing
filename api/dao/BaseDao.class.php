@@ -40,7 +40,7 @@ class BaseDao{
   try {
     $this->conn = new PDO("mysql:host=".Config::DB_HOST.";dbname=".Config::DB_SCHEME, Config::DB_USERNAME, Config::DB_PASSWORD);
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $this->conn->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
+  //  $this->conn->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
   } catch(PDOException $e) {
     throw $e;
 }
