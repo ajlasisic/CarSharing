@@ -42,7 +42,7 @@ class BaseDao{
     $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $this->conn->setAttribute(PDO::ATTR_AUTOCOMMIT, 0);
   } catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    throw $e;
 }
 }
 
