@@ -10,10 +10,14 @@ public function __construct(){
   $this->dao =new VehicleDao();
 }
 
-public function get_vehicles($id, $offset, $limit, $search){
-    return $this->dao->get_vehicles($id, $offset, $limit, $search);
+public function get_vehicles($offset, $limit, $search,$order){
+    if($search){
+        return $this->dao->get_vehicles($offset, $limit, $search,$order);
+    }
+    else {
+      return $this->dao->get_all($offset,$limit, $order);
   }
-
+}
 public function get_all_available_vehicles(){
      return $this->dao->get_all_available_vehicles();
    }
