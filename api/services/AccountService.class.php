@@ -19,7 +19,7 @@ public function get_accounts($search,$offset,$limit,$order){
    }
   }
    public function add($account){
-         if(!isset($account['username'])) throw new Exception("Username or password are missing");
+         if(!isset($account['username']) || !isset($account['password'])) throw new Exception("Username or password are missing");
          return parent::add($account);
    }
 }

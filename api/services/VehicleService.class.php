@@ -5,7 +5,6 @@ require_once dirname(__FILE__)."/../dao/VehicleDao.class.php";
 
 class VehicleService extends BaseService {
 
-
 public function __construct(){
   $this->dao =new VehicleDao();
 }
