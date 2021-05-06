@@ -2,13 +2,16 @@
 require_once dirname(__FILE__)."/BaseService.class.php";
 require_once dirname(__FILE__)."/../dao/UserDao.class.php";
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
+require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
 
 class UserService extends BaseService{
 
    protected $accountDao;
+   private $smtpClient;
   public function __construct(){
   $this->dao =new UserDao();
   $this->accountDao=new AccountDao();
+  $this->smtpClient=new SMTPClient();
 }
 
 public function register($user){
@@ -40,7 +43,9 @@ public function register($user){
        throw $e;
     }
   }
-return $user;
+  $this->smtpClient->send_register_user_token($user);
+
+  return $user;
 }
 public function confirm($token){
 $user=$this->dao->get_user_by_token($token);
@@ -48,7 +53,6 @@ if(!isset($user['id'])) throw Exception("Invalid token");
 //$this->dao->update($user['id'],["status"=>"ACTIVE"]);
 $this->accountDao->update($user['accountID'],["status"=>"ACTIVE"]);
 
-// TODO: send email to customer
 }
 }
 ?>
