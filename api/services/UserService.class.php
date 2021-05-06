@@ -13,6 +13,18 @@ class UserService extends BaseService{
   $this->accountDao=new AccountDao();
   $this->smtpClient=new SMTPClient();
 }
+public function login($user){
+ $db_user = $this->dao->get_user_by_email($user['email']);
+
+ if (!isset($db_user['id'])) throw new Exception("User doesn't exists", 400);
+
+ $account = $this->accountDao->get_by_id($db_user['accountID']);
+ if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+
+ if (md5($account['password']) != md5($user['password'])) throw new Exception("Invalid password", 400);
+
+ return $db_user;
+}
 
 public function register($user){
   if(!isset($user['username'])) throw new Exception("Username field is required");
@@ -20,7 +32,7 @@ public function register($user){
     $this->dao->beginTransaction();
     $account = $this->accountDao->add([
       "username"=>$user['username'],
-      "password"=>$user['password'],
+      "password"=>md5($user['password']),
       "status"=> "PENDING"
     ]);
   $user=parent::add([
