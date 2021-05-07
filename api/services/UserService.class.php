@@ -13,10 +13,30 @@ class UserService extends BaseService{
   $this->accountDao=new AccountDao();
   $this->smtpClient=new SMTPClient();
 }
-public function login($user){
- $db_user = $this->dao->get_user_by_email($user['email']);
+public function reset($user){
+    $db_user = $this->dao->get_user_by_token($user['token']);
 
- if (!isset($db_user['id'])) throw new Exception("User doesn't exists", 400);
+    if (!isset($db_user['id'])) throw new Exception("Invalid token", 400);
+   $account = $this->accountDao->update($db_user['accountID'], ['password' => $user['password']]);
+
+  }
+
+  public function forgot($user){
+    $db_user = $this->dao->get_user_by_email($user['email']);
+
+    if (!isset($db_user['id'])) throw new Exception("User doesn't exist", 400);
+
+    // generate token - and save it to db
+    $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16))]);
+
+    // send email
+    $this->smtpClient->send_user_recovery_token($db_user);
+  }
+
+  public function login($user){
+    $db_user = $this->dao->get_user_by_email($user['email']);
+
+     if (!isset($db_user['id'])) throw new Exception("User doesn't exist", 400);
 
  $account = $this->accountDao->get_by_id($db_user['accountID']);
  if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
@@ -61,8 +81,8 @@ public function register($user){
 }
 public function confirm($token){
 $user=$this->dao->get_user_by_token($token);
-if(!isset($user['id'])) throw Exception("Invalid token");
-//$this->dao->update($user['id'],["status"=>"ACTIVE"]);
+ if (!isset($user['id'])) throw new Exception("Invalid token", 400);
+
 $this->accountDao->update($user['accountID'],["status"=>"ACTIVE"]);
 
 }
