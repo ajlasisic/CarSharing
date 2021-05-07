@@ -18,6 +18,7 @@ public function reset($user){
 
     if (!isset($db_user['id'])) throw new Exception("Invalid token", 400);
    $account = $this->accountDao->update($db_user['accountID'], ['password' => $user['password']]);
+   $this->update($db_user['id'], ['token' => NULL]);
 
   }
 
@@ -60,8 +61,6 @@ public function register($user){
     "DOB"=> $user['DOB'],
     "email"=> $user['email'],
     "phoneNumber"=> $user['phoneNumber'],
-    "address"=> $user['address'],
-    "city"=> $user['city'],
     "token"=> md5(random_bytes(16)),
     "accountID"=>$account['id']
   ]);
@@ -84,6 +83,7 @@ $user=$this->dao->get_user_by_token($token);
  if (!isset($user['id'])) throw new Exception("Invalid token", 400);
 
 $this->accountDao->update($user['accountID'],["status"=>"ACTIVE"]);
+$this->update($user['id'], ['token' => NULL]);
 
 }
 }
