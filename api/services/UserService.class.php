@@ -4,6 +4,7 @@ require_once dirname(__FILE__)."/../dao/UserDao.class.php";
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
 require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
 
+use \Firebase\JWT\JWT;
 class UserService extends BaseService{
 
    protected $accountDao;
@@ -17,6 +18,7 @@ public function reset($user){
     $db_user = $this->dao->get_user_by_token($user['token']);
 
     if (!isset($db_user['id'])) throw new Exception("Invalid token", 400);
+     if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) > 300) throw new Exception("Token expired", 400);
    $account = $this->accountDao->update($db_user['accountID'], ['password' => $user['password']]);
    $this->update($db_user['id'], ['token' => NULL]);
 
@@ -26,9 +28,10 @@ public function reset($user){
     $db_user = $this->dao->get_user_by_email($user['email']);
 
     if (!isset($db_user['id'])) throw new Exception("User doesn't exist", 400);
+    if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) < 300) throw new Exception("Token is being sent.", 400);
 
     // generate token - and save it to db
-    $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16))]);
+    $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16)), 'token_created_at' => date(Config::DATE_FORMAT)]);
 
     // send email
     $this->smtpClient->send_user_recovery_token($db_user);
@@ -44,7 +47,9 @@ public function reset($user){
 
  if (md5($account['password']) != md5($user['password'])) throw new Exception("Invalid password", 400);
 
- return $db_user;
+ $jwt = JWT::encode(["id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], "JWT SECRET");
+
+    return ["token" => $jwt];
 }
 
 public function register($user){
