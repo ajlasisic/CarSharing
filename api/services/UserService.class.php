@@ -7,7 +7,7 @@ require_once dirname(__FILE__).'/../clients/SMTPClient.class.php';
 use \Firebase\JWT\JWT;
 class UserService extends BaseService{
 
-   protected $accountDao;
+   private $accountDao;
    private $smtpClient;
   public function __construct(){
   $this->dao =new UserDao();
@@ -45,7 +45,7 @@ public function reset($user){
  $account = $this->accountDao->get_by_id($db_user['accountID']);
  if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
 
- if (md5($account['password']) != md5($user['password'])) throw new Exception("Invalid password", 400);
+ if ($account['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
 
  $jwt = JWT::encode(["id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], "JWT SECRET");
 

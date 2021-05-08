@@ -11,8 +11,8 @@ public function get_user_by_email($email)  {
       return $this->query_unique("SELECT * FROM users WHERE email=:email", ["email" => $email]);
 }
 
-public function update_user_by_phoneNumber($phoneNumber, $user) {
-  $this->update("users", $phoneNumber, $user, "phoneNumber");
+public function update_user_by_email($email, $user) {
+  $this->update("users", $email, $user, "email");
 }
 public function get_user_by_token($token){
   return $this->query_unique("SELECT * FROM users WHERE token=:token",["token"=> $token]);
