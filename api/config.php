@@ -13,9 +13,8 @@ class Config {
  const SMTP_PORT= 587;
  const SMTP_ENCR= "tls";
  const SMTP_USERNAME ="ajlasisic00@gmail.com";
- const SMTP_PASSWORD ="sifra123";
 
-
+ const JWT_SECRET = "y4KvQcZVqn3F7uxQvcFk";
 
 
 }

@@ -44,9 +44,9 @@ public function reset($user){
  $account = $this->accountDao->get_by_id($db_user['accountID']);
  if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
 
- if ($account['password'] != md5($user['password'])) throw new Exception("Invalid password", 400);
+ if ($account['password'] != $user['password']) throw new Exception("Invalid password", 400);
 
- $jwt = \Firebase\JWT\JWT::encode(["id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], "JWT SECRET");
+ $jwt = \Firebase\JWT\JWT::encode(["id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], Config::JWT_SECRET);
 
     return ["token" => $jwt];
 }

@@ -12,13 +12,19 @@ Flight::set('flight.log_errors',TRUE);
 Flight::map('error', function(Exception $ex){
 Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
-
+/* utility function for reading query parameters from URL */
 Flight::map('query',function($name, $default_value=NULL){
 $request= Flight::request();
 $query_parameter= @$request->query->getData()[$name];
 $query_parameter= $query_parameter ? $query_parameter : $default_value;
 return $query_parameter;
 });
+/* utility function for getting header parameters */
+Flight::map('header', function($name){
+  $headers = getallheaders();
+  return @$headers[$name];
+});
+
 Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");
   header('Content-Type: application/json');
