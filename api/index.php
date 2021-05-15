@@ -24,6 +24,11 @@ Flight::map('header', function($name){
   $headers = getallheaders();
   return @$headers[$name];
 });
+/* utility function for generating JWT token */
+Flight::map('jwt', function($user){
+  $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], Config::JWT_SECRET);
+  return ["token" => $jwt];
+});
 
 Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");

@@ -8,7 +8,8 @@ class UserService extends BaseService{
 
    private $accountDao;
    private $smtpClient;
-  public function __construct(){
+
+public function __construct(){
   $this->dao =new UserDao();
   $this->accountDao=new AccountDao();
   $this->smtpClient=new SMTPClient();
@@ -17,10 +18,12 @@ public function reset($user){
     $db_user = $this->dao->get_user_by_token($user['token']);
 
     if (!isset($db_user['id'])) throw new Exception("Invalid token", 400);
-     if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) > 300) throw new Exception("Token expired", 400);
-   $account = $this->accountDao->update($db_user['accountID'], ['password' => $user['password']]);
-   $this->update($db_user['id'], ['token' => NULL]);
+    if (strtotime(date(Config::DATE_FORMAT)) - strtotime($db_user['token_created_at']) > 300) throw new Exception("Token expired", 400);
 
+    $account = $this->accountDao->update($db_user['accountID'], ['password' => $user['password']]);
+    $this->update($db_user['id'], ['token' => NULL]);
+
+    return $db_user;
   }
 
   public function forgot($user){
@@ -38,17 +41,14 @@ public function reset($user){
 
   public function login($user){
     $db_user = $this->dao->get_user_by_email($user['email']);
+      if (!isset($db_user['id'])) throw new Exception("User doesn't exist", 400);
 
-     if (!isset($db_user['id'])) throw new Exception("User doesn't exist", 400);
+    $account = $this->accountDao->get_by_id($db_user['accountID']);
+      if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
 
- $account = $this->accountDao->get_by_id($db_user['accountID']);
- if (!isset($account['id']) || $account['status'] != 'ACTIVE') throw new Exception("Account not active", 400);
+      if ($account['password'] != $user['password']) throw new Exception("Invalid password", 400);
 
- if ($account['password'] != $user['password']) throw new Exception("Invalid password", 400);
-
- $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], Config::JWT_SECRET);
-
-    return ["token" => $jwt];
+   return $db_user;
 }
 
 public function register($user){
@@ -83,12 +83,13 @@ public function register($user){
   return $user;
 }
 public function confirm($token){
-$user=$this->dao->get_user_by_token($token);
- if (!isset($user['id'])) throw new Exception("Invalid token", 400);
+  $user=$this->dao->get_user_by_token($token);
+    if (!isset($user['id'])) throw new Exception("Invalid token", 400);
 
-$this->accountDao->update($user['accountID'],["status"=>"ACTIVE"]);
-$this->update($user['id'], ['token' => NULL]);
+  $this->accountDao->update($user['accountID'],["status"=>"ACTIVE"]);
+  $this->update($user['id'], ['token' => NULL]);
 
+  return $user;
 }
 }
 ?>
