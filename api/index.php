@@ -6,6 +6,7 @@ require_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once dirname(__FILE__).'/services/AccountService.class.php';
 require_once dirname(__FILE__).'/services/UserService.class.php';
 require_once dirname(__FILE__).'/services/VehicleService.class.php';
+require_once dirname(__FILE__).'/services/RentalDetailsService.class.php';
 
 Flight::set('flight.log_errors',TRUE);
 /*error handling for API*/
@@ -26,7 +27,7 @@ Flight::map('header', function($name){
 });
 /* utility function for generating JWT token */
 Flight::map('jwt', function($user){
-  $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $db_user["id"], "aid" => $db_user["accountID"], "r" => $db_user["role"]], Config::JWT_SECRET);
+  $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TOKEN_TIME), "id" => $user["id"], "aid" => $user["accountID"], "r" => $user["role"]], Config::JWT_SECRET);
   return ["token" => $jwt];
 });
 
@@ -43,13 +44,14 @@ Flight::route('GET /', function(){
 Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('vehicleService', 'VehicleService');
+Flight::register('rentalDetailsService', 'RentalDetailsService');
 
 /*include all routes*/
 require_once dirname(__FILE__)."/routes/middleware.php";
 require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/vehicles.php";
-
+require_once dirname(__FILE__)."/routes/rentaldetails.php";
 
 Flight::start();
 
