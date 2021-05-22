@@ -3,9 +3,9 @@
  *@OA\Get(path="/user/rentaldetails", tags={"x-user","rentaldetails"},security={{"ApiKeyAuth": {}}},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=10, description="Limit for pagination"),
- *     @OA\Parameter(type="string", in="query", name="search", description="Search string for vehicles. Case insensitive search."),
+ *     @OA\Parameter(type="string", in="query", name="search", description="Search string for rental details. Case insensitive search."),
  *     @OA\Parameter(type="string", in="query", name="order", default="-id", description="Sorting for return elements. -column_name ascending order by column_name or +column_name descending order by column_name"),
- *     @OA\Response(response="200", description="List vehicles from database")
+ *     @OA\Response(response="200", description="List details of rental")
  * )
  */
 Flight::route('GET /user/rentaldetails', function(){
