@@ -38,7 +38,7 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body style="display:none;">
       <div id="wrapper">
                   <!-- Navigation -->
                   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -240,7 +240,7 @@
            </main>
        </div>
        <!-- /#wrapper -->
-       
+
         <!-- jQuery -->
         <script src="./assets/js/jquery.min.js"></script>
 
@@ -263,8 +263,13 @@
         <script type="text/javascript">
           $(document).ready(function() {
             var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
-
             app.run();
+
+            if (!window.localStorage.getItem("token")){
+             window.location = "login.html";
+           }else{
+             $('body').show();
+           }
           });
         </script>
     </body>
