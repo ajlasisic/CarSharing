@@ -33,6 +33,35 @@
 
 <script type="text/javascript">
 
+  $("#vehicles-table").DataTable({
+      processing: true,
+      serverSide: true,
+      "ajax": {
+        url: "api/user/vehicles",
+        type: "GET",
+        beforeSend: function(xhr){
+         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));
+       },
+       dataSrc: function(resp){
+         console.log(resp);
+         return resp;
+       },
+        data: function ( d ) {
+          d.offset=d.start;
+          d.limit=d.length;
+          d.search = d.search.value;
+          d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+          console.log(d);
+        }
+      },
+      columns: [
+                  { "data": "id" },
+                  { "data": "car_brand" },
+                  { "data": "car_model" },
+                  { "data": "pricePerHour" }
+              ]
+          });
+/*
   getVehicles();
 
   function getVehicles(){
@@ -54,8 +83,9 @@
 
            $("#vehicles-table tbody").html(html);
 
-           $("#email-templates-table").DataTable();
+           $("#vehicles-table").DataTable();
          }
       });
-  }
+*/
+
 </script>
