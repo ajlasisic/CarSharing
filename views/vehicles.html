@@ -21,6 +21,7 @@
                                         <th>Car Brand</th>
                                         <th>Car Model</th>
                                         <th>Price Per Hour</th>
+                                        <th>License Plate Number</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,6 +40,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form role="form" id="add-vehicle">
+            <input type="hidden" name="id" />
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Add Vehicle</h4>
@@ -54,7 +56,11 @@
                </div>
                <div class="form-group">
                    <label>Price Per Hour</label>
-                   <input type="text" name="price_per_hour" class="form-control" placeholder="Price per hour" required minlength="2">
+                   <input type="text" name="pricePerHour" class="form-control" placeholder="Price per hour" required minlength="2">
+               </div>
+               <div class="form-group">
+                   <label>License Plate</label>
+                   <input type="text" name="licensePlate" class="form-control" placeholder="License Plate" required minlength="2">
                </div>
             </div>
             <div class="modal-footer">
@@ -73,34 +79,69 @@
   $("#add-vehicle").validate({
      submitHandler: function(form, event) {
        event.preventDefault();
+       var data = jsonize_form($(form));
 
-       console.log(jsonize_form($(form)));
-       addVehicle(jsonize_form($(form)));
+
+     console.log(data);
+     if (data.id){
+       updateVehicle(data);
+     }else{
+       addVehicle(data);
+     }
      }
    });
 
+   getVehicles();
+
+   function updateVehicle(vehicle){
+       console.log(vehicle);
+       $.ajax({
+            url: "api/admin/vehicles/"+vehicle.id,
+            type: "PUT",
+            data: JSON.stringify(vehicle),
+            contentType: "application/json",
+            beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+            success: function(data) {
+              toastr.success("Vehicle data have been updated");
+              getVehicles();
+              $("#add-vehicle").trigger("reset");
+              $("#add-vehicle *[name='id']").val("");
+              $('#add-vehicle-modal').modal("hide");
+              console.log(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown ){
+              toastr.error(jqXHR.responseJSON.message);
+              console.log(jqXHR);
+            }
+         });
+     }
    function addVehicle(vehicle){
     $.ajax({
          url: "api/admin/vehicles",
          type: "POST",
-         data: vehicle,
+         data: JSON.stringify(vehicle),
+         contentType: "application/json",
          beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
          success: function(data) {
           toastr.success("Vehicle has been successfully added");
+          getVehicles();
           $("#add-vehicle").trigger("reset");
           $('#add-vehicle-modal').modal("hide");
            console.log(data);
          },
          error: function(jqXHR, textStatus, errorThrown ){
+           toastr.error(jqXHR.responseJSON.message);
            console.log(jqXHR);
          }
       });
   }
-
+  function getVehicles(){
   $("#vehicles-table").DataTable({
       processing: true,
       serverSide: true,
-      "ajax": {
+      bDestroy: true,
+  //  pagingType: "simple",
+      ajax: {
         url: "api/user/vehicles",
         type: "GET",
         beforeSend: function(xhr){
@@ -115,15 +156,44 @@
           d.limit=d.length;
           d.search = d.search.value;
           d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
-          console.log(d);
+
+         delete d.start;
+         delete d.length;
+         delete d.columns;
+         delete d.draw;
+         console.log(d);
         }
       },
       columns: [
-                  { "data": "id" },
+                  { "data": "id",
+                  "render": function ( data, type, row, meta ) {
+                    return '<span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="openEditVehicleModal('+data+')"><i class="fa fa-edit"></i></a>';
+  }
+},
                   { "data": "car_brand" },
                   { "data": "car_model" },
-                  { "data": "pricePerHour" }
-              ]
+                  { "data": "pricePerHour" },
+                  { "data": "licensePlate" }
+              ],
           });
-
+}
+ function openEditVehicleModal(id){
+   $.ajax({
+        url: "api/admin/vehicles/"+id,
+        type: "GET",
+        beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+        success: function(data) {
+          $("#add-vehicle *[name='id']").val(data.id);
+          $("#add-vehicle *[name='car_brand']").val(data.car_brand);
+          $("#add-vehicle *[name='car_model']").val(data.car_model);
+          $("#add-vehicle *[name='licensePlate']").val(data.licensePlate);
+          $("#add-vehicle *[name='pricePerHour']").val(data.pricePerHour);
+          $("#add-vehicle-modal").modal("show");
+          console.log(data);
+          },
+         error: function(jqXHR, textStatus, errorThrown ){
+         console.log(jqXHR);
+        }
+     });
+   }
 </script>

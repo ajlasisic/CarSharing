@@ -21,7 +21,7 @@ public function get_all_available_vehicles(){
      return $this->dao->get_all_available_vehicles();
    }
 public function add($vehicle){
-         if(!isset($vehicle['licensePlate'])) throw new Exception("License plate field is missing");
+        // if(!isset($vehicle['licensePlate'])) throw new Exception("License plate field is missing");
          return parent::add($vehicle);
    }
 }

@@ -47,7 +47,7 @@ Flight::route('POST /admin/vehicles', function(){
   Flight::json(Flight::vehicleService()->add($data));
 });
 /**
- * @OA\Put(path="/admin/vehicles/{id}", tags={"x-admin","account"},security={{"ApiKeyAuth": {}}},
+ * @OA\Put(path="/admin/vehicles/{id}", tags={"x-admin","vehicle"},security={{"ApiKeyAuth": {}}},
  *   @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", default=1),
  *   @OA\RequestBody(description="Basic account info that is going to be updated", required=true,
  *       @OA\MediaType(mediaType="application/json",
@@ -68,5 +68,14 @@ Flight::route('PUT /admin/vehicles/@id', function($id){
   $data = Flight::request()->data->getData();
   Flight::json(Flight::vehicleService()->update($id, $data));
 });
+/**
+ * @OA\Get(path="/admin/vehicles/{id}", tags={"x-admin","vehicle"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="Id of vehicle"),
+ *     @OA\Response(response="200", description="Fetch individual vehicle")
+ * )
+ */
 
+Flight::route('GET /admin/vehicles/@id', function($id){
+    Flight::json(Flight::vehicleService()->get_by_id($id));
+});
  ?>

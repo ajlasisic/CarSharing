@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/services/VehicleService.class.php';
 require_once dirname(__FILE__).'/services/RentalDetailsService.class.php';
 
 Flight::set('flight.log_errors',TRUE);
-/*error handling for API*
+/*error handling for API*/
 Flight::map('error', function(Exception $ex){
 Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
