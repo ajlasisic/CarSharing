@@ -24,5 +24,8 @@ public function add($vehicle){
         // if(!isset($vehicle['licensePlate'])) throw new Exception("License plate field is missing");
          return parent::add($vehicle);
    }
+public function get_distribution($offset, $limit, $search, $order){
+  return $this->dao->get_distribution($offset, $limit, $search, $order);
+}
 }
 ?>

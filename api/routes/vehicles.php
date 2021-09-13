@@ -54,7 +54,6 @@ Flight::route('POST /admin/vehicles', function(){
  *    			@OA\Schema(
  *           @OA\Property(property="car_brand", type="string", example="brand",	description="Brand of the car"),
  *    				 @OA\Property(property="car_model", type="string", example="model",	description="Car model"),
- *    				 @OA\Property(property="milage", type="int", example="1000",	description="Milage in kilometers"),
  *	           @OA\Property(property="availability",type="tinyint", example="1",	description="Current availability of the car"),
  *	           @OA\Property(property="licensePlate", type="string", example="137A25M",	description="License plate number"),
  *	           @OA\Property(property="pricePerHour",type="double", example="3.55",	description="Price per hour")
@@ -77,5 +76,25 @@ Flight::route('PUT /admin/vehicles/@id', function($id){
 
 Flight::route('GET /admin/vehicles/@id', function($id){
     Flight::json(Flight::vehicleService()->get_by_id($id));
+});
+
+/**
+ *@OA\Get(path="/user/distribution", tags={"x-user","vehicle"},security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
+ *     @OA\Parameter(type="integer", in="query", name="limit", default=10, description="Limit for pagination"),
+ *     @OA\Parameter(type="string", in="query", name="search", description="Search string for vehicles. Case insensitive search."),
+ *     @OA\Parameter(type="string", in="query", name="order", default="-id", description="Sorting for return elements. -column_name ascending order by column_name or +column_name descending order by column_name"),
+ *     @OA\Response(response="200", description="List vehicles from database")
+ * )
+ */
+  Flight::route('GET /user/distribution', function(){
+
+  $offset = Flight::query('offset', 0);
+  $limit = Flight::query('limit', 10);
+  $search = Flight::query('search');
+  $order = Flight::query('order', '-id');
+
+
+  Flight::json(Flight::vehicleService()->get_distribution($offset, $limit, $search, $order));
 });
  ?>

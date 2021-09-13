@@ -11,8 +11,18 @@
          + Add
      </button>
      <br>
-
+<div class="row" style="margin-top: 10px;">
+    <table id="vehicles1-table" class="table table-striped table-bordered table-hover" id="dataTables-example">
+      <thead>
+          <tr>
+              <th>Number count</th>
+              <th>Brand name</th>
+          </tr>
+      </thead>
+        </table>
+  </div>
       <div class="row" style="margin-top: 10px;">
+
                         <div class="table-responsive">
                             <table id="vehicles-table" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
@@ -168,6 +178,7 @@
        dataSrc: function(resp){
          console.log(resp);
          return resp;
+         $("#vehicles-count").text(resp.length);
        },
         data: function ( d ) {
           d.offset=d.start;

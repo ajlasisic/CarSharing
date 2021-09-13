@@ -31,6 +31,24 @@ class VehicleDao extends BaseDao {
   public function get_all_available_vehicles(){
     return $this->query("SELECT * FROM vehicles WHERE availability=:availability", ["availability" => 1]);
 }
+public function get_distribution($offset, $limit){
+  //list($order_column, $order_direction) = self::parse_order($order);
+
+  $parameters = [];
+  $query = "SELECT COUNT(car_brand), car_brand
+            FROM vehicles
+            GROUP BY car_brand ";
+
+  /*if (isset($search)){
+    $query .= "AND LOWER(car_brand) LIKE CONCAT('%', :search, '%')";
+    $parameters['search'] = strtolower($search);
+  }
+*/
+  //$query .="ORDER BY ${order_column} ${order_direction} ";
+  $query .="LIMIT ${limit} OFFSET ${offset}";
+
+  return $this->query($query, $parameters);
+}
 }
 
 ?>
