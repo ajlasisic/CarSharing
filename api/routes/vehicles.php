@@ -32,7 +32,6 @@ Flight::route('GET /user/available_vehicles', function(){
  *    			@OA\Schema(
  *    				 @OA\Property(property="car_brand", required="true", type="string", example="brand",	description="Brand of the car"),
  *    				 @OA\Property(property="car_model", type="string", example="model",	description="Car model"),
- *    				 @OA\Property(property="milage", type="int", example="1000",	description="Milage in kilometers"),
  *	           @OA\Property(property="availability", required="true", type="tinyint", example="1",	description="Current availability of the car"),
  *	           @OA\Property(property="licensePlate", required="true", type="string", example="137A25M",	description="License plate number"),
  *	           @OA\Property(property="pricePerHour", required="true", type="double", example="3.55",	description="Price per hour")

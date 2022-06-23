@@ -8,13 +8,13 @@ class Config {
     return Config::get_env("DB_HOST", "localhost");
   }
   public static function DB_USERNAME(){
-    return Config::get_env("DB_USERNAME", "carsharing");
+    return Config::get_env("DB_USERNAME", "root");
   }
   public static function DB_PASSWORD(){
-    return Config::get_env("DB_PASSWORD", "carsharing");
+    return Config::get_env("DB_PASSWORD", "root123");
   }
   public static function DB_SCHEME(){
-    return Config::get_env("DB_SCHEME", "carsharing");
+    return Config::get_env("DB_SCHEME", "freedb_carsharing");
   }
   public static function DB_PORT(){
     return Config::get_env("DB_PORT", "3306");
@@ -29,7 +29,7 @@ class Config {
     return Config::get_env("SMTP_USERNAME", "ajlasisic00@gmail.com");
   }
   public static function SMTP_PASSWORD(){
-    return Config::get_env("SMTP_PASSWORD", NULL);
+    return Config::get_env("SMTP_PASSWORD", "novasifra");
   }
 
  //const SMTP_PASSWORD ="novasifra";

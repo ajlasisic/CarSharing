@@ -9,7 +9,7 @@ require_once dirname(__FILE__).'/services/VehicleService.class.php';
 require_once dirname(__FILE__).'/services/RentalDetailsService.class.php';
 
 Flight::set('flight.log_errors',TRUE);
-/*error handling for API*
+/*error handling for API
 Flight::map('error', function(Exception $ex){
 Flight::json(["message" => $ex->getMessage()], $ex->getCode() ? $ex->getCode() : 500);
 });
@@ -18,7 +18,7 @@ Flight::map('query',function($name, $default_value=NULL){
 $request= Flight::request();
 $query_parameter= @$request->query->getData()[$name];
 $query_parameter= $query_parameter ? $query_parameter : $default_value;
-return urldecode($query_parameter);
+return $query_parameter;
 });
 /* utility function for getting header parameters */
 Flight::map('header', function($name){
