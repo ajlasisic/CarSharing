@@ -16,7 +16,7 @@ class SMTPClient{
 
   public function send_register_user_token($user){
     $message = (new Swift_Message('Confirm your account'))
-      ->setFrom(['ajlasisic00@gmail.com' => 'Carsharing'])
+      ->setFrom(['ajla.sisic@stu.ibu.edu.ba' => 'Carsharing'])
       ->setTo([$user['email']])
       ->setBody('Here is the confirmation link:http://localhost/carsharing/api/users/confirm/'.$user['token']);
     // Send the message
@@ -24,7 +24,7 @@ class SMTPClient{
   }
   public function send_user_recovery_token($user){
     $message = (new Swift_Message('Reset Your Password'))
-      ->setFrom(['ajlasisic00@gmail.com' => 'Carsharing'])
+      ->setFrom(['ajla.sisic@stu.ibu.edu.ba' => 'Carsharing'])
       ->setTo([$user['email']])
       ->setBody('Here is the recovery token: '.$user['token']);
 

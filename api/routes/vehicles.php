@@ -33,8 +33,8 @@ Flight::route('GET /user/available_vehicles', function(){
  *    				 @OA\Property(property="car_brand", required="true", type="string", example="brand",	description="Brand of the car"),
  *    				 @OA\Property(property="car_model", type="string", example="model",	description="Car model"),
  *	           @OA\Property(property="availability", required="true", type="tinyint", example="1",	description="Current availability of the car"),
- *	           @OA\Property(property="licensePlate", required="true", type="string", example="137A25M",	description="License plate number"),
- *	           @OA\Property(property="pricePerHour", required="true", type="double", example="3.55",	description="Price per hour")
+ *	           @OA\Property(property="license_plate", required="true", type="string", example="137A25M",	description="License plate number"),
+ *	           @OA\Property(property="price_per_hour", required="true", type="double", example="3.55",	description="Price per hour")
  *          )
  *       )
  *     ),
@@ -54,8 +54,8 @@ Flight::route('POST /admin/vehicles', function(){
  *           @OA\Property(property="car_brand", type="string", example="brand",	description="Brand of the car"),
  *    				 @OA\Property(property="car_model", type="string", example="model",	description="Car model"),
  *	           @OA\Property(property="availability",type="tinyint", example="1",	description="Current availability of the car"),
- *	           @OA\Property(property="licensePlate", type="string", example="137A25M",	description="License plate number"),
- *	           @OA\Property(property="pricePerHour",type="double", example="3.55",	description="Price per hour")
+ *	           @OA\Property(property="license_plate", type="string", example="137A25M",	description="License plate number"),
+ *	           @OA\Property(property="price_per_hour",type="double", example="3.55",	description="Price per hour")
  *          )
  *       )
  *     ),

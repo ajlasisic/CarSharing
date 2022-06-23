@@ -7,9 +7,9 @@
  *    				 @OA\Property(property="username", required="true", type="string", example="test",	description="Username for the account" ),
  *    				 @OA\Property(property="password", type="string", example="password",	description="Account password" ),
  *             @OA\Property(property="email", type="string", example="email@gmail.com",	description="User email" ),
- *             @OA\Property(property="fullName", type="string", example="Name Surname",	description="User's full name"),
+ *             @OA\Property(property="full_name", type="string", example="Name Surname",	description="User's full name"),
  *             @OA\Property(property="DOB", type="date", example="2000-01-01",	description="Date of birth"),
- *             @OA\Property(property="phoneNumber", type="int", example="123456",	description="phoneNumber")
+ *             @OA\Property(property="phone_number", type="int", example="123456",	description="phoneNumber")
  *          )
  *       )
  *     ),

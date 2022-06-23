@@ -13,7 +13,7 @@ class AccountDao extends BaseDao{
                          WHERE LOWER(username) LIKE CONCAT('%',:username,'%')
                          ORDER BY ${order_column} ${order_direction}
                          LIMIT ${limit} OFFSET ${offset}",
-                         ["username"=>strtolower($search)]);
+                         ["username"=>$search]);
 
 }
 }

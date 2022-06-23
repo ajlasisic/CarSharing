@@ -52,7 +52,7 @@ public function reset($user){
 }
 
 public function register($user){
-  if(!isset($user['username'])) throw new Exception("Username field is required");
+//  if(!isset($user['username'])) throw new Exception("Username field is required");
   try{
     $this->dao->beginTransaction();
     $account = $this->accountDao->add([
@@ -61,10 +61,10 @@ public function register($user){
       "status"=> "PENDING"
     ]);
   $user=parent::add([
-    "fullName"=> $user['fullName'],
+    "full_name"=> $user['full_name'],
     "DOB"=> $user['DOB'],
     "email"=> $user['email'],
-    "phoneNumber"=> $user['phoneNumber'],
+    "phone_number"=> $user['phone_number'],
     "token"=> md5(random_bytes(16)),
     "accountID"=>$account['id']
   ]);
@@ -78,7 +78,7 @@ public function register($user){
        throw $e;
     }
   }
-  $this->smtpClient->send_register_user_token($user);
+  //$this->smtpClient->send_register_user_token($user);
 
   return $user;
 }
