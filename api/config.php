@@ -20,16 +20,18 @@ class Config {
     return Config::get_env("DB_PORT", "3306");
   }
   public static function SMTP_HOST(){
-    return Config::get_env("SMTP_HOST", "smtp.gmail.com");
+    return Config::get_env("SMTP_HOST", "in-v3.mailjet.com");
   }
   public static function SMTP_PORT(){
     return Config::get_env("SMTP_PORT", "587");
   }
   public static function SMTP_USERNAME(){
-    return Config::get_env("SMTP_USERNAME", "ajlasisic00@gmail.com");
+    return Config::get_env("SMTP_USERNAME", "a74739ce25663fc6944757d5976072a1");
+    // 6ffe046d45b7455a5a711cfeb941fee3
   }
   public static function SMTP_PASSWORD(){
-    return Config::get_env("SMTP_PASSWORD", "novasifra");
+    return Config::get_env("SMTP_PASSWORD", "db8fadd39e7b310c785947e47a1d114b");
+    // 5a7e059bb22a963e540f05b865806b76
   }
 
  //const SMTP_PASSWORD ="novasifra";

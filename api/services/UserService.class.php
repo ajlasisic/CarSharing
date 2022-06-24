@@ -78,7 +78,7 @@ public function register($user){
        throw $e;
     }
   }
-  //$this->smtpClient->send_register_user_token($user);
+  $this->smtpClient->send_register_user_token($user);
 
   return $user;
 }
