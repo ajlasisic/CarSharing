@@ -17,8 +17,8 @@ class SMTPClient{
   public function send_register_user_token($user){
     $message = (new Swift_Message('Confirm your account'))
       ->setFrom(['adi.hadziomerovic@stu.ibu.edu.ba' => 'Carsharing'])
-      ->setTo(['adihaver0@gmail.com'])
-      ->setBody('Here is the confirmation link: http://localhost/carsharing/api/users/confirm/');
+      ->setTo([$user['email']])
+      ->setBody('Here is the confirmation link: http://localhost/carsharing/api/users/confirm/'.$user['token']);
     // Send the message
     $this->mailer->send($message);
   }
